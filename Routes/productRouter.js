@@ -2,7 +2,9 @@ const {
     getProducts,
     getById,
     getByName,
-    postProduct
+    postProduct,
+    updateProduct,
+    deleteProduct
 } = require ('../Controllers/productController')
 
 const router = require('express').Router();
@@ -33,6 +35,16 @@ router.get('/byName/:name', async (req, res) => {
 
 router.post('/', async (req, res) => {
     await postProduct(req.body);
+    res.status(200).json();
+})
+
+router.put('/:id', async (req, res) => {
+    await updateProduct(req.params.id, req.body)
+    res.status(200).json();
+})
+
+router.delete('/:id', async (req, res) => {
+    await deleteProduct(req.params.id)
     res.status(200).json();
 })
 
