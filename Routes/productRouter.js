@@ -10,42 +10,45 @@ const {
 const router = require('express').Router();
 
 router.get('/', async (req, res) => {
-    let products = await getProducts();
-    res.status(200).json(products);
+    await getProducts()
+        .then((data) => res.json(data))
+        .catch(error => res.status(500).json({message: error}));
 });
 
 router.get('/byId/:id', async (req, res) => {
-    let product = await getById(req.params.id);
-
-    if(!product)
-        return res.status(404).json(product);
- 
-    res.status(200).json(product);
+    await getById(req.params.id)
+        .then((data) => {
+            if(!data) return res.status(404).json(data);
+            return res.json({data})
+        })
+        .catch(error => res.status(500).json({message: error}));
 })
 
 router.get('/byName/:name', async (req, res) => {
-    console.log(req.params.name)
-    let product = await getByName(req.params.name);
-
-    if(!product)
-        return res.status(404).json(product);
- 
-    res.status(200).json(product);
+    await getByName(req.params.name)
+        .then((data) => {
+            if(!data) return res.status(404).json(data);
+            return res.json({data})
+        })
+        .catch(error => res.status(500).json({message: error}));
 })
 
 router.post('/', async (req, res) => {
-    await postProduct(req.body);
-    res.status(200).json();
+    await postProduct(req.body)
+        .then(() => res.json())
+        .catch(error => res.status(500).json({message: error}));
 })
 
 router.put('/:id', async (req, res) => {
     await updateProduct(req.params.id, req.body)
-    res.status(200).json();
+        .then(() => res.json())
+        .catch(error => res.status(500).json({message: error}));
 })
 
 router.delete('/:id', async (req, res) => {
     await deleteProduct(req.params.id)
-    res.status(200).json();
+        .then(() => res.json())
+        .catch(error => res.status(500).json({message: error}));
 })
 
 module.exports = router;
