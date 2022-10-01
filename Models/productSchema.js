@@ -10,8 +10,7 @@ const productSchema = new Schema({
     },
     description: {type: String },
     price: {type: Number, min: 1, required: true },
-    stock: {type: Number, min: 0, required: true },
-    isDeleted: {type: Boolean, default: false}
+    stock: {type: Number, min: 0, required: true }
 });
 
 module.exports = mongoose.model('Product', productSchema);
