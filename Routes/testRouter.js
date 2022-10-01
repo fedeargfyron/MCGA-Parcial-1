@@ -5,8 +5,9 @@ const {
 const router = require('express').Router();
 
 router.get('/', (req, res) => {
-    let response = getStatus();
-    res.status(200).json(response);
+    getStatus()
+        .then((data) => res.json(data))
+        .catch(error => res.status(500).json({message: error}));
 });
 
 module.exports = router;
